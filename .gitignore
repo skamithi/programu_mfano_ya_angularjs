@@ -1,0 +1,4 @@
+bower_components
+Session.vim
+*.swp
+node_modules

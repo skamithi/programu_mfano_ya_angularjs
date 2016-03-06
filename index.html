@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet"
+    href="bower_components/angular-material/angular-material.min.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet"
+    href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat'
+    rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/my.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <title>Country Database </title>
+  </head>
+  <body ng-app="MyApp">
+    <!-- bootstrap container -->
+    <div class="container" ng-controller="AutoComplete as ac">
+      <div class='col-md-2'></div>
+      <div class='col-md-8'>
+        <!-- header layout define as 12 column so you can do nested columns -->
+        <div class='header col-md-12'>
+          <div class='col-md-2'></div>
+          <div class=' page_title col-md-8'>
+            <h2> Country Database </h2>
+          </div>
+          <div class='col-md-2'></div>
+        </div>
+
+        <!-- form layout  define as 12 col so you can do nested columns -->
+        <div class='form_layout col-md-12'>
+          <div class="col-md-3"></div>
+          <div class="col-md-6" >
+            <form
+              ng-submit="$event.preventDefault()"
+              ng-cloak>
+              <md-progress-linear
+                  ng-hide='ac.dataLoaded'
+                  class='make_progress_bar_thinner ng-hide'
+                  md-mode='query'>
+              </md-progress-linear>
+
+              <md-autocomplete
+                  class='input_autocomplete'
+                  md-selected-item="ac.selectedItem"
+                  md-search-text="ac.searchText"
+                  md-items="item in ac.querySearch(ac.searchText)"
+                  md-item-text="item.display"
+                  ng-disabled="ac.isDisabled"
+                  md-selected-item-change="ac.selectedItemChange(item)"
+                  placeholder="{{ac.placeholder}}">
+                    <md-item-template>
+                      <span md-highlight-text="ac.searchText">{{item.display}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                      No states matching {{ac.searchText}}" were found
+                    </md-not-found>
+              </md-autocomplete>
+            </form>
+          </div>
+        </div>
+        <div ng-if="ac.selectedItem" class="country col-md-12">
+          <!-- country details, flag name and stats -->
+          <div class="name_and_flag col-md-12">
+            <div class="name col-md-8">
+              <h3> {{ac.selectedItem.value.name }}</h3>
+            </div>
+            <div class="flag col-md-4">
+              <!-- picture of the flag -->
+              <img ng-src="{{ ac.selectedItem.value.flagImage }}"/>
+            </div>
+          </div>
+          <div class="details col-md-12">
+            <div class="stats col-md-8">
+              <table class="table">
+                <tbody>
+                  <tr ng-repeat="n in ['capital', 'population', 'region', 'subregion']">
+                    <!-- repeat td blocks for various country stats -->
+                    <td class='name'>
+                      {{ n | capitalize}}
+                    </td>
+                    <td class='value'>
+                      {{ ac.selectedItem.value[n] }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="map col-md-4"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+    <script src="bower_components/underscore/underscore-min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/angular/angular.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/ngstorage/ngStorage.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/angular-aria/angular-aria.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/angular-material/angular-material.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/human-format/index.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/src/myscript.js" type="text/javascript" charset="utf-8"></script>
+  </body>
+</html>
